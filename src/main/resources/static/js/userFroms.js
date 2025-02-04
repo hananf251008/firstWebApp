@@ -1,14 +1,7 @@
-
-
     $(document).ready(function () {
-    // Fetch data using AJAX
-
     function addRow(user) {
-        $("#usersList").append("<tr><td>" + user.id + "</td>" +
-            "<td>" + user.firstName +
-            "</td><td>" + user.secondName + "</td>" +
-            "<td>"+user.email+"</td>" +"<td>"+user.address+"</td>"+
-            "<td>"+user.phoneNumber+"</td>"+
+        $("#usersList").append("<tr><td>" + user.name +
+            "</td><td>"+user.email+"</td>" +"<td>"+user.password+"</td>"+
             "<td>" +
             "<button onclick='findUserById(" + user.id + ")'>" + "Profile" + "</button>" +
             "</td>"+
@@ -18,18 +11,14 @@
     type: "GET",
     url: "/users/getAll",
     success: function (users) {
-    // Iterate through the products and display them in the table
     const usersList = $("#usersList");
     users.forEach(function (users) {
     usersList.append("<tr>" +
-    "<td>" + users.id + "</td>"
-    +"<td>"+ users.firstName + "</td>"
-    +"<td>"+ users.secondName +"</td>"+
+    +"<td>"+ users.name + "</td>"
     "<td>"+ users.email+"</td>"+
-    "<td>"+users.address+"</td>"
-    +"<td>"+ users.phoneNumber+ "</td>"+
+    "<td>"+users.password+"</td>"
     "<td>" +
-    "<button onclick='findUserById(" + users.id + ")'>" + "Profile" + "</button>" +
+    "<button onclick='findUserByid(" + users.email + ")'>" + "Profile" + "</button>" +
     "</td>"
     +"</tr>");
 });
@@ -42,11 +31,10 @@
     $("#userForm").submit(function (event) {
     event.preventDefault();
     let user = {
-    firstName: $("#firstName").val(),
-    secondName: $("#secondName").val(),
+    name: $("#name").val(),
+     password: $("#password").val(),
     email: $("#email").val(),
-    address: $("#address").val(),
-    phoneNumber: $("#phoneNumber").val()
+
 };
 
     $.ajax({
@@ -56,7 +44,7 @@
     data: JSON.stringify(user),
     success: function () {
     alert("user saved successfully!");
-    addRow(user)
+    addRow(users)
 
 },
     error: function (error) {
@@ -72,17 +60,17 @@
         type: "Get",
         url: "/user/findUserId/"+id,
         success: function (user) {
-            alert("find user successfully id="+user.id);
-            window.location.href = "/profile.html?id="+user.id;//+ encodeURIComponent(user.id);
+            alert("find user successfully id="+user.name);
+            window.location.href = "/firstp.html?email="+email;//+ encodeURIComponent(user.id);
 
-        },
+        }
         error: function (error) {
             console.log("Error saving person: ", error);
         }
     });
 
 }
-    async function encryptNumber(number, key) {
+    async function encryptNumber(number,key ) {
         const encoder = new TextEncoder();
         const data = encoder.encode(number.toString());
 
